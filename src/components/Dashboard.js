@@ -31,10 +31,11 @@ class Dashboard extends Component {
     loading: false,
     focused: null,
   };
+  //instance method
   selectPanel(id) {
-    this.setState({
-     focused: id
-    });
+    this.setState(previousState => ({
+     focused: previousState.focused != null ? null : id
+    }));
    }
 
   render() {
@@ -53,10 +54,10 @@ class Dashboard extends Component {
     ).map((panel) => (
       <Panel
         key={panel.id}
-        id={panel.id}
         label={panel.label}
         value={panel.value}
-        onSelect={this.selectPanel}
+        //passing the instance method as a prop instead of above as a class property arrow method
+        onSelect={event => this.selectPanel(panel.id)}
       />
     ));
     return <main className={dashboardClasses}>{panels}</main>;
